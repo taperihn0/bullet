@@ -16,10 +16,57 @@ use bullet_lib::{
     value::{ValueTrainerBuilder, loader},
 };
 
+use std::fs;
+use std::path::{Path, PathBuf};
+
 const HIDDEN_SIZE: usize = 128;
 const SCALE: i32 = 400;
 const QA: i16 = 255;
 const QB: i16 = 64;
+
+fn collect_tdf_files_from(base: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+
+    let entries = match fs::read_dir(base) {
+        Ok(entries) => entries,
+        Err(_) => return files,
+    };
+
+    for entry in entries.flatten() {
+        let selfplay_path = entry.path();
+
+        if selfplay_path.is_dir() && 
+           let Some(selfplay_name) = selfplay_path.file_name().and_then(|n| n.to_str()) && 
+           selfplay_name.starts_with("selfplay_") {
+
+            if let Ok(sub_entries) = fs::read_dir(&selfplay_path) {
+                for sub_entry in sub_entries.flatten() {
+                    let session_path = sub_entry.path();
+
+                    if session_path.is_dir() {
+                        if session_path.is_dir() &&
+                           let Some(session_name) = session_path.file_name().and_then(|n| n.to_str()) &&
+                           session_name.starts_with("session") {
+
+                            if let Ok(file_entries) = fs::read_dir(&session_path) {
+                                for file_entry in file_entries.flatten() {
+                                    let file_path = file_entry.path();
+
+                                    if file_path.is_file() && 
+                                       file_path.extension().and_then(|e| e.to_str()) == Some("tdf") {
+                                        files.push(file_path);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    files
+}
 
 fn main() {
     let mut trainer = ValueTrainerBuilder::default()
@@ -56,7 +103,7 @@ fn main() {
         });
 
     let schedule = TrainingSchedule {
-        net_id: "simple".to_string(),
+        net_id: "nn128".to_string(),
         eval_scale: SCALE as f32,
         steps: TrainingSteps {
             batch_size: 16_384,
@@ -69,10 +116,19 @@ fn main() {
         save_rate: 10,
     };
 
-    let settings = LocalSettings { threads: 4, test_set: None, output_directory: "checkpoints", batch_queue_size: 64 };
+    let settings = LocalSettings { threads: 6, test_set: None, output_directory: "checkpoints", batch_queue_size: 64 };
+
+    let data_files = collect_tdf_files_from(Path::new("misc/"));
+
+    let str_vec: Vec<&str> = data_files
+        .iter()
+        .filter_map(|path| path.to_str()) 
+        .collect();
 
     // loading directly from a `BulletFormat` file
-    let data_loader = loader::DirectSequentialDataLoader::new(&["data/baseline.data", "data/baseline.data"]);
+    let data_loader = loader::DirectSequentialDataLoader::new(
+        &str_vec
+    );
 
     trainer.run(&schedule, &settings, &data_loader);
 }
