@@ -27,39 +27,15 @@ const QB: i16 = 64;
 fn collect_tdf_files_from(base: &Path) -> Vec<PathBuf> {
     let mut files = Vec::new();
 
-    let entries: fs::ReadDir = match fs::read_dir(base) {
-        Ok(entries) => entries,
-        Err(_) => return files,
-    };
+    if let Ok(entries) = fs::read_dir(base) {
+        for entry in entries.flatten() {
+            let path = entry.path();
 
-    for entry in entries.flatten() {
-        let selfplay_path = entry.path();
-
-        if selfplay_path.is_dir() && 
-           let Some(selfplay_name) = selfplay_path.file_name().and_then(|n| n.to_str()) && 
-           selfplay_name.starts_with("selfplay_") {
-
-            if let Ok(sub_entries) = fs::read_dir(&selfplay_path) {
-                for sub_entry in sub_entries.flatten() {
-                    let session_path = sub_entry.path();
-
-                    if session_path.is_dir() {
-                        if session_path.is_dir() &&
-                           let Some(session_name) = session_path.file_name().and_then(|n| n.to_str()) &&
-                           session_name.starts_with("session") {
-
-                            if let Ok(file_entries) = fs::read_dir(&session_path) {
-                                for file_entry in file_entries.flatten() {
-                                    let file_path = file_entry.path();
-
-                                    if file_path.is_file() && 
-                                       file_path.extension().and_then(|e| e.to_str()) == Some("tdf") {
-                                        files.push(file_path);
-                                    }
-                                }
-                            }
-                        }
-                    }
+            if path.is_dir() {
+                files.extend(collect_tdf_files_from(&path));
+            } else if path.is_file() {
+                if path.extension().map_or(false, |ext| ext == "tdf") {
+                    files.push(path);
                 }
             }
         }
