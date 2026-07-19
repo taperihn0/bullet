@@ -127,7 +127,34 @@ fn main() {
 
     // loading directly from a `BulletFormat` file
     let data_loader = loader::DirectSequentialDataLoader::new(
-        &str_vec
+        &[
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr18_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr21.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr22.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr24.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr27.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr28_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr28_b.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr28_c.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr28.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr29_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr29_b.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr29.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr30_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_apr30.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_jun02_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_jun04_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_jun04.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may02.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may14_a.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may14_b.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may14_c.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may14.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may15.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may17.tdf",
+            "/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_shuffled/selfplay_may30.tdf",
+        ] 
+        //&str_vec
     );
 
     trainer.run(&schedule, &settings, &data_loader);
