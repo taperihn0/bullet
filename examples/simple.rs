@@ -84,8 +84,8 @@ fn main() {
         steps: TrainingSteps {
             batch_size: 16_384,
             batches_per_superbatch: 6104,
-            start_superbatch: 1,
-            end_superbatch: 60,
+            start_superbatch: 40,
+            end_superbatch: 70,
         },
         wdl_scheduler: wdl::ConstantWDL { value: 0.75 },
         lr_scheduler: lr::StepLR { start: 0.001, gamma: 0.1, step: 18 },
