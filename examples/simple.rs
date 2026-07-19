@@ -19,7 +19,7 @@ use bullet_lib::{
 use std::fs;
 use std::path::{Path, PathBuf};
 
-const HIDDEN_SIZE: usize = 128;
+const HIDDEN_SIZE: usize = 160;
 const SCALE: i32 = 400;
 const QA: i16 = 255;
 const QB: i16 = 64;
@@ -85,7 +85,7 @@ fn main() {
             batch_size: 16_384,
             batches_per_superbatch: 6104,
             start_superbatch: 1,
-            end_superbatch: 60,
+            end_superbatch: 80,
         },
         wdl_scheduler: wdl::ConstantWDL { value: 0.75 },
         lr_scheduler: lr::StepLR { start: 0.001, gamma: 0.1, step: 18 },
@@ -106,6 +106,5 @@ fn main() {
         &str_vec
     );
 
-    trainer.load_from_checkpoint("/kaggle/input/datasets/taperihn00/publius-nn128-0/publius_net128_0.bin");
     trainer.run(&schedule, &settings, &data_loader);
 }
