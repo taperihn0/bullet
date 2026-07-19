@@ -118,7 +118,7 @@ fn main() {
 
     let settings = LocalSettings { threads: 6, test_set: None, output_directory: "checkpoints", batch_queue_size: 64 };
 
-    let data_files = collect_tdf_files_from(Path::new("/kaggle/input/datasets/taperihn00/selfplay6gb/selfplay_serialized_shuffled/"));
+    let data_files = collect_tdf_files_from(Path::new("/kaggle/input/datasets/taperihn00/leafselfplay212m/selfplay_serialized_shuffled/"));
 
     let str_vec: Vec<&str> = data_files
         .iter()
