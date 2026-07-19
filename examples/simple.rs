@@ -106,5 +106,6 @@ fn main() {
         &str_vec
     );
 
+    trainer.load_from_checkpoint("/kaggle/input/datasets/taperihn00/publius-nn128-0/publius_net128_0.bin");
     trainer.run(&schedule, &settings, &data_loader);
 }
