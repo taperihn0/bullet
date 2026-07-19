@@ -27,7 +27,7 @@ const QB: i16 = 64;
 fn collect_tdf_files_from(base: &Path) -> Vec<PathBuf> {
     let mut files = Vec::new();
 
-    let entries = match fs::read_dir(base) {
+    let entries: fs::ReadDir = match fs::read_dir(base) {
         Ok(entries) => entries,
         Err(_) => return files,
     };
@@ -109,7 +109,7 @@ fn main() {
             batch_size: 16_384,
             batches_per_superbatch: 6104,
             start_superbatch: 1,
-            end_superbatch: 40,
+            end_superbatch: 60,
         },
         wdl_scheduler: wdl::ConstantWDL { value: 0.75 },
         lr_scheduler: lr::StepLR { start: 0.001, gamma: 0.1, step: 18 },
@@ -118,7 +118,7 @@ fn main() {
 
     let settings = LocalSettings { threads: 6, test_set: None, output_directory: "checkpoints", batch_queue_size: 64 };
 
-    let data_files = collect_tdf_files_from(Path::new("/kaggle/input/datasets/taperihn00/leafselfplay212m/selfplay_serialized_shuffled/"));
+    let data_files = collect_tdf_files_from(Path::new("/kaggle/input/datasets/taperihn00/leafselfplay212m/"));
 
     let str_vec: Vec<&str> = data_files
         .iter()
