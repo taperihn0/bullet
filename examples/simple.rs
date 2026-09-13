@@ -19,7 +19,7 @@ use bullet_lib::{
 use std::fs;
 use std::path::{Path, PathBuf};
 
-const HIDDEN_SIZE: usize = 160;
+const HIDDEN_SIZE: usize = 192;
 const SCALE: i32 = 400;
 const QA: i16 = 255;
 const QB: i16 = 64;
@@ -79,7 +79,7 @@ fn main() {
         });
 
     let schedule = TrainingSchedule {
-        net_id: "nn128".to_string(),
+        net_id: "nn192".to_string(),
         eval_scale: SCALE as f32,
         steps: TrainingSteps {
             batch_size: 16_384,
