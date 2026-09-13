@@ -83,12 +83,12 @@ fn main() {
         eval_scale: SCALE as f32,
         steps: TrainingSteps {
             batch_size: 16_384,
-            batches_per_superbatch: 6104,
+            batches_per_superbatch: 6470,
             start_superbatch: 1,
             end_superbatch: 80,
         },
-        wdl_scheduler: wdl::ConstantWDL { value: 0.75 },
-        lr_scheduler: lr::StepLR { start: 0.001, gamma: 0.1, step: 18 },
+        wdl_scheduler: wdl::LinearWDL { start: 0.8, end: 0.2 }, 
+        lr_scheduler: lr::StepLR { start: 0.001, gamma: 0.2, step: 20 },
         save_rate: 10,
     };
 
